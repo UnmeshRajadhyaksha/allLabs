@@ -1,0 +1,14 @@
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  sleep-for:
+    lang: python3
+    handler: ./sleep-for
+    image: sleep-for
+    environment:
+      sleep_duration: 10
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"

@@ -1,0 +1,61 @@
+Auto Scaling for Nodes:
+Prometheus matrix generated at API gateway has request per seconds metric.
+If the defined threshold for request per seconds is exceeded the AlertManager will fire. 
+	
+Initial nodes:
+docker service scale nodeinfo=0
+	
+Setting minimum and maximum value of clusters:
+faas-cli deploy \
+	--label com.openfaas.scale.max=10 \
+  	--label com.openfaas.scale.min=1
+  	
+http://127.0.0.1:9090/graph
+gateway_service_count
+sum by(function_name) (rate(gateway_function_invocation_total{code="200"}[10s])) > 5
+Other different graphs
+
+http://127.0.0.1:9090/alerts
+API high invocution rate => requests per second 	
+Service Down
+
+ Command for load testing:
+ hey -z=30s -q 5 -c 2 -m POST -d=Test http://127.0.0.1:8080/function/go-echo
+
+
+docker service ls => For api gate way services Prometheus / AlertManager
+docker service logs <service-name>
+docker service ps <service-name>
+
+======================================================================
+
+    environment:
+      sleep_duration: 10
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      content_type: text/html
+      write_debug: true
+      
+ In /home/unmesh/faas/docker-compose.yml update read_timeout and write_timeout,
+ then exe ./deploy_stack.sh.
+ 
+
+======================================================================
+
+ 
+ /async-function/<function_name>  -or-  /async-function/<function_name> 
+ --async
+ 202 Accepted from the gateway not result. Buy default result is discarted. 
+ If you specified echo -n "LaterIsBetter" | faas-cli invoke figlet --async --header "X-Callback-Url=http://requestbin.com/r/1i7i1we1", then queworkers execute the code and returns o/p in the mentioned site.
+ invoke vs echo | invoke.
+ 
+ 
+====================================================================== 
+ /home/app/function/html/figlet.html => relative address ne function kadhu shakto
+ 
+ --gateway or setting the OPENFAAS_URL
+
+
+
+	
